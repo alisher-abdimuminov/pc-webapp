@@ -374,7 +374,7 @@ onMounted(async () => {
 						<CalendarDaysIcon class="h-5 w-5" />
 					</div>
 
-					<h2 class="text-lg font-bold">{{ tma.user }}</h2>
+					<h2 class="text-lg font-bold">{{ tma.user.value?.id }}</h2>
 				</div>
 
 				<p class="mt-1 text-xs text-muted-foreground">

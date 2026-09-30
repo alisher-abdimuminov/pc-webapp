@@ -158,14 +158,6 @@ function statusText(status: StepStatus) {
 
 const app = useTelegramWebApp();
 
-const getLocation = async () => {
-	return await new Promise<LocationData | null>((resolve) => {
-		app.webApp.value?.LocationManager.getLocation((result) => {
-			resolve(result);
-		});
-	});
-};
-
 onMounted(async () => {
 	await app.init();
 	app.webApp.value?.LocationManager.init();
@@ -208,39 +200,6 @@ onMounted(async () => {
 
 				<!-- INFO -->
 			</CardContent>
-			<CardFooter class="border-t">
-				<div class="w-full grid grid-cols-2 gap-2">
-					<div class="rounded-2xl bg-muted/60 p-3">
-						<div
-							class="flex items-center gap-1.5 text-[11px] text-muted-foreground"
-						>
-							<MapPinIcon class="h-3.5 w-3.5" />
-
-							Amaliyot joyi:
-							{{ app.webApp.value?.initDataUnsafe }}
-						</div>
-
-						<p class="mt-1 truncate text-sm font-semibold">Joy</p>
-					</div>
-
-					<div class="rounded-2xl bg-muted/60 p-3">
-						<div
-							class="flex items-center gap-1.5 text-[11px] text-muted-foreground"
-						>
-							<Clock3Icon class="h-3.5 w-3.5" />
-
-							Smena
-						</div>
-
-						<p class="mt-1 text-sm font-semibold">
-							{{
-								app.webApp.value?.LocationManager
-									.isAccessGranted
-							}}
-						</p>
-					</div>
-				</div>
-			</CardFooter>
 		</Card>
 
 		<!-- =========================
@@ -250,7 +209,10 @@ onMounted(async () => {
 		<div class="flex items-end justify-between">
 			<div>
 				<div class="flex items-center gap-2">
-					<CalendarDaysIcon class="h-5 w-5" />
+					<div class="p-1 bg-primary rounded-lg">
+						<CalendarDaysIcon class="h-5 w-5" />
+					</div>
+					<p>{{ app.getLocation() }}</p>
 
 					<h2 class="text-lg font-bold">Bugungi davomat</h2>
 				</div>

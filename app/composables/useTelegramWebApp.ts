@@ -1,4 +1,4 @@
-import type { WebApp } from "telegram-web-app";
+import type { LocationData, WebApp } from "telegram-web-app";
 
 function sleep(ms: number) {
 	return new Promise<void>((resolve) => {
@@ -94,8 +94,19 @@ export default function useTelegramWebApp() {
 		}
 	}
 
+	async function getLocation(): Promise<LocationData | null> {
+		const location = await new Promise<LocationData | null>((resolve) => {
+			webApp.value?.LocationManager.getLocation((result) => {
+				resolve(result);
+			});
+		});
+
+		return location;
+	}
+
 	return {
 		webApp,
 		init,
+		getLocation,
 	};
 }

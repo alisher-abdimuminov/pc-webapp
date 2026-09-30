@@ -158,11 +158,13 @@ function statusText(status: StepStatus) {
 
 const app = useTelegramWebApp();
 
-const location = await new Promise<LocationData | null>((resolve) => {
-	app.webApp.value?.LocationManager.getLocation((result) => {
-		resolve(result);
+const getLocation = async () => {
+	return await new Promise<LocationData | null>((resolve) => {
+		app.webApp.value?.LocationManager.getLocation((result) => {
+			resolve(result);
+		});
 	});
-});
+};
 
 onMounted(async () => {
 	await app.init();
@@ -214,12 +216,11 @@ onMounted(async () => {
 						>
 							<MapPinIcon class="h-3.5 w-3.5" />
 
-							Amaliyot joyi
+							Amaliyot joyi:
+							{{ app.webApp.value?.initDataUnsafe }}
 						</div>
 
-						<p class="mt-1 truncate text-sm font-semibold">
-							{{ location }}
-						</p>
+						<p class="mt-1 truncate text-sm font-semibold">Joy</p>
 					</div>
 
 					<div class="rounded-2xl bg-muted/60 p-3">

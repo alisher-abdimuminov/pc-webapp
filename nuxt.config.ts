@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 		plugins: [tailwindcss()],
 	},
 
+	nitro: {
+		preset: "bun",
+	},
+
 	modules: ["shadcn-nuxt"],
 
 	shadcn: {

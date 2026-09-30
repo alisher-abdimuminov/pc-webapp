@@ -18,7 +18,7 @@ export default function useTelegramWebApp() {
 
 	const error = ref("");
 
-	async function waitForTelegram(timeoutMs = 5000) {
+	async function waitForTelegram(timeoutMs = 1000) {
 		if (!import.meta.client) {
 			return null;
 		}

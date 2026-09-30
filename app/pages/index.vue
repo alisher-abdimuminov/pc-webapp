@@ -232,7 +232,12 @@ onMounted(async () => {
 							Smena
 						</div>
 
-						<p class="mt-1 text-sm font-semibold">1-smena</p>
+						<p class="mt-1 text-sm font-semibold">
+							{{
+								app.webApp.value?.LocationManager
+									.isAccessGranted
+							}}
+						</p>
 					</div>
 				</div>
 			</CardFooter>

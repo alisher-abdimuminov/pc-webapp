@@ -158,11 +158,36 @@ function statusText(status: StepStatus) {
 
 const tma = useTelegramWebApp();
 
-const location = await tma.getLocation();
+const location = ref<LocationData | null>(null);
+
+const locationLoading = ref(false);
+
+const locationError = ref("");
+
+async function requestLocation() {
+	locationLoading.value = true;
+	locationError.value = "";
+
+	try {
+		await tma.init();
+
+		location.value = await tma.getLocation();
+	} catch (e) {
+		location.value = null;
+
+		locationError.value =
+			e instanceof Error ? e.message : "Joylashuvni aniqlab bo‘lmadi.";
+	} finally {
+		locationLoading.value = false;
+	}
+}
 
 onMounted(async () => {
-	await tma.init();
-	// app.webApp.value?.LocationManager.init();
+	try {
+		await tma.init();
+	} catch (e) {
+		console.error(e);
+	}
 });
 </script>
 
@@ -204,6 +229,140 @@ onMounted(async () => {
 			</CardContent>
 		</Card>
 
+		<Card>
+			<CardContent class="p-4">
+				<div class="flex items-start justify-between gap-4">
+					<div class="flex min-w-0 items-start gap-3">
+						<div
+							class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary"
+						>
+							<MapPinIcon class="h-5 w-5" />
+						</div>
+
+						<div class="min-w-0">
+							<p class="font-semibold">Joylashuv</p>
+
+							<p
+								v-if="!location"
+								class="mt-0.5 text-xs text-muted-foreground"
+							>
+								Davomat uchun joylashuvingizni aniqlang
+							</p>
+
+							<p v-else class="mt-0.5 text-xs text-emerald-600">
+								Joylashuv olindi
+							</p>
+						</div>
+					</div>
+
+					<Button
+						v-if="!location"
+						size="sm"
+						:disabled="locationLoading"
+						@click="requestLocation"
+					>
+						<LoaderCircleIcon
+							v-if="locationLoading"
+							class="mr-2 h-4 w-4 animate-spin"
+						/>
+
+						<MapPinIcon v-else class="mr-2 h-4 w-4" />
+
+						{{ locationLoading ? "Aniqlanmoqda..." : "Aniqlash" }}
+					</Button>
+
+					<Button
+						v-else
+						size="sm"
+						variant="outline"
+						:disabled="locationLoading"
+						@click="requestLocation"
+					>
+						<LoaderCircleIcon
+							v-if="locationLoading"
+							class="mr-2 h-4 w-4 animate-spin"
+						/>
+
+						<MapPinIcon v-else class="mr-2 h-4 w-4" />
+
+						Yangilash
+					</Button>
+				</div>
+
+				<!-- LOCATION DATA -->
+
+				<div v-if="location" class="mt-4 grid grid-cols-2 gap-2">
+					<div class="rounded-xl bg-muted/60 p-3">
+						<p class="text-[10px] text-muted-foreground">
+							Latitude
+						</p>
+
+						<p class="mt-1 break-all font-mono text-xs font-medium">
+							{{ location.latitude }}
+						</p>
+					</div>
+
+					<div class="rounded-xl bg-muted/60 p-3">
+						<p class="text-[10px] text-muted-foreground">
+							Longitude
+						</p>
+
+						<p class="mt-1 break-all font-mono text-xs font-medium">
+							{{ location.longitude }}
+						</p>
+					</div>
+
+					<div
+						class="col-span-2 flex items-center justify-between rounded-xl bg-muted/60 p-3"
+					>
+						<div>
+							<p class="text-[10px] text-muted-foreground">
+								Aniqlik
+							</p>
+
+							<p class="mt-1 text-sm font-semibold">
+								<template
+									v-if="location.horizontal_accuracy !== null"
+								>
+									{{
+										location.horizontal_accuracy.toFixed(1)
+									}}
+									metr
+								</template>
+
+								<template v-else> — </template>
+							</p>
+						</div>
+
+						<Badge
+							v-if="location.horizontal_accuracy !== null"
+							:variant="
+								location.horizontal_accuracy <= 50
+									? 'default'
+									: 'secondary'
+							"
+							class="rounded-full"
+						>
+							{{
+								location.horizontal_accuracy <= 50
+									? "Yaxshi"
+									: "O‘rtacha"
+							}}
+						</Badge>
+					</div>
+				</div>
+
+				<!-- ERROR -->
+
+				<div
+					v-if="locationError"
+					class="mt-3 rounded-xl bg-destructive/10 p-3 text-xs text-destructive"
+				>
+					{{ locationError }}
+				</div>
+			</CardContent>
+		</Card>
+
 		<!-- =========================
 		     ATTENDANCE HEADER
 		     ========================= -->
@@ -214,8 +373,6 @@ onMounted(async () => {
 					<div class="p-1 bg-primary rounded-lg">
 						<CalendarDaysIcon class="h-5 w-5" />
 					</div>
-					<p>{{ location.latitude }}</p>
-					<p>{{ location.longitude }}</p>
 
 					<h2 class="text-lg font-bold">{{ tma.user }}</h2>
 				</div>

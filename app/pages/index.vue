@@ -156,11 +156,13 @@ function statusText(status: StepStatus) {
 	return "Yopiq";
 }
 
-const app = useTelegramWebApp();
+const tma = useTelegramWebApp();
+
+const location = await tma.getLocation();
 
 onMounted(async () => {
-	await app.init();
-	app.webApp.value?.LocationManager.init();
+	await tma.init();
+	// app.webApp.value?.LocationManager.init();
 });
 </script>
 
@@ -212,9 +214,10 @@ onMounted(async () => {
 					<div class="p-1 bg-primary rounded-lg">
 						<CalendarDaysIcon class="h-5 w-5" />
 					</div>
-					<p>{{ app.getLocation() }}</p>
+					<p>{{ location.latitude }}</p>
+					<p>{{ location.longitude }}</p>
 
-					<h2 class="text-lg font-bold">Bugungi davomat</h2>
+					<h2 class="text-lg font-bold">{{ tma.user }}</h2>
 				</div>
 
 				<p class="mt-1 text-xs text-muted-foreground">

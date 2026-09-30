@@ -5,6 +5,11 @@ export default defineNuxtConfig({
 	devtools: { enabled: false },
 	css: ["~/assets/css/tailwind.css"],
 
+	devServer: {
+		host: "127.0.0.1",
+		port: 3000,
+	},
+
 	vite: {
 		plugins: [tailwindcss()],
 	},
@@ -13,7 +18,7 @@ export default defineNuxtConfig({
 	// 	preset: "bun",
 	// },
 
-	modules: ["shadcn-nuxt"],
+	modules: ["shadcn-nuxt", "@pinia/nuxt"],
 
 	shadcn: {
 		prefix: "",
@@ -28,6 +33,18 @@ export default defineNuxtConfig({
 					tagPosition: "head",
 				},
 			],
+		},
+	},
+
+	runtimeConfig: {
+		public: {
+			apiBase: "https://api.practicum.samdpi.uz/api",
+			// apiBase: "http://127.0.0.1:8000/api",
+			hemisStudentURL: "https://student.uzfi.uz/oauth/authorize",
+			hemisClientID: "9",
+			hemisRedirectUri:
+				"https://pc-webapp-umber.vercel.app/auth/callback/",
+			// hemisRedirectUri: "http://127.0.0.1:3000/auth/callback/",
 		},
 	},
 });

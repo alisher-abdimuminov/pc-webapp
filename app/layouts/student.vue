@@ -1,5 +1,18 @@
 <script setup lang="ts">
-import { CalendarIcon, HomeIcon, ListTodoIcon } from "@lucide/vue";
+import {
+	CalendarIcon,
+	HomeIcon,
+	ListTodoIcon,
+	LogOutIcon,
+	MoonStarIcon,
+} from "@lucide/vue";
+
+const auth = useAuthStore();
+
+function logout() {
+	auth.clear();
+	navigateTo({ name: "auth-login" });
+}
 </script>
 
 <template>
@@ -25,6 +38,12 @@ import { CalendarIcon, HomeIcon, ListTodoIcon } from "@lucide/vue";
 					<TabsTrigger value="attendance">
 						<CalendarIcon />
 						<!-- <span>Davomat</span> -->
+					</TabsTrigger>
+					<TabsTrigger @click="$toggleTheme" value="toggleTheme">
+						<MoonStarIcon />
+					</TabsTrigger>
+					<TabsTrigger @click="logout" value="logout" variant="">
+						<LogOutIcon />
 					</TabsTrigger>
 				</TabsList>
 			</Tabs>

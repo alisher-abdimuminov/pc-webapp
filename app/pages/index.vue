@@ -1155,6 +1155,8 @@ onBeforeUnmount(() => {
 									class="mt-0.5 text-[10px] text-muted-foreground"
 								>
 									{{ locationSourceText }}
+									{{ location.latitude }} -
+									{{ location.longitude }}
 
 									<template v-if="location.accuracy !== null">
 										•

@@ -38,10 +38,10 @@ export default defineNuxtConfig({
 
 	runtimeConfig: {
 		public: {
-			apiBase: "https://api.practicum.samdpi.uz/api",
+			apiBase: "https://api.pc.samdpi.uz/api",
 			// apiBase: "http://127.0.0.1:8000/api",
-			hemisStudentURL: "https://student.uzfi.uz/oauth/authorize",
-			hemisClientID: "9",
+			hemisStudentURL: "https://student.samdpi.uz/oauth/authorize",
+			hemisClientID: "15",
 			hemisRedirectUri:
 				"https://pc-webapp-umber.vercel.app/auth/callback/",
 			// hemisRedirectUri: "http://127.0.0.1:3000/auth/callback/",

@@ -25,7 +25,7 @@ definePageMeta({
 
 const { api, errorMessage } = useApi();
 
-// const auth = useAuthStore();
+const auth = useAuthStore();
 
 const tma = useTelegramWebApp();
 
@@ -1019,28 +1019,28 @@ async function submitVerifiedFace() {
  * USER UI
  * ================================== */
 
-// const userName = computed(
-// 	() => auth.user?.full_name || auth.user?.username || "Talaba",
-// );
+const userName = computed(
+	() => auth.user?.full_name || auth.user?.username || "Talaba",
+);
 
-// const userGroup = computed(
-// 	() => auth.user?.group_name || "Guruh biriktirilmagan",
-// );
-//
-// const userImage = computed(
-// 	() => auth.user?.image_url || auth.user?.image || "",
-// );
+const userGroup = computed(
+	() => auth.user?.group_name || "Guruh biriktirilmagan",
+);
 
-// const userInitials = computed(() => {
-// 	const value = userName.value
-// 		.trim()
-// 		.split(/\s+/)
-// 		.slice(0, 2)
-// 		.map((item) => item[0]?.toUpperCase() || "")
-// 		.join("");
-//
-// 	return value || "T";
-// });
+const userImage = computed(
+	() => auth.user?.image_url || auth.user?.image || "",
+);
+
+const userInitials = computed(() => {
+	const value = userName.value
+		.trim()
+		.split(/\s+/)
+		.slice(0, 2)
+		.map((item) => item[0]?.toUpperCase() || "")
+		.join("");
+
+	return value || "T";
+});
 
 /* ==================================
  * LIFECYCLE
@@ -1092,21 +1092,18 @@ onBeforeUnmount(() => {
 				<div class="flex items-center justify-between gap-4">
 					<div class="min-w-0 flex-1">
 						<h1 class="truncate text-xl font-bold tracking-tight">
-							<!-- {{ userName }} -->
-							Username
+							{{ userName }}
 						</h1>
 
 						<p
 							class="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground"
 						>
-							<!-- {{ userGroup }} -->
-							Group
+							{{ userGroup }}
 
-							<!-- <template v-if="auth.user?.faculty">
+							<template v-if="auth.user?.faculty">
 								•
 								{{ auth.user.faculty }}
-							</template> -->
-							Faculty
+							</template>
 						</p>
 					</div>
 

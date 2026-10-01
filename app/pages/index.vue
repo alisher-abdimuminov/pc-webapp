@@ -1027,6 +1027,10 @@ const userGroup = computed(
 	() => auth.user?.group_name || "Guruh biriktirilmagan",
 );
 
+const userFaculty = computed(
+	() => auth.user?.faculty_name || "Guruh biriktirilmagan",
+);
+
 const userImage = computed(
 	() => auth.user?.image_url || auth.user?.image || "",
 );
@@ -1100,10 +1104,8 @@ onBeforeUnmount(() => {
 						>
 							{{ userGroup }}
 
-							<template v-if="auth.user?.faculty">
-								•
-								{{ auth.user.faculty }}
-							</template>
+							•
+							{{ userFaculty }}
 						</p>
 					</div>
 
